@@ -102,16 +102,13 @@ class RepositoryView(View):
 
 class CategoryView(View):
     def get(self, request):
-        try:
-            categories=Category.objects.all()
-            data={"categories":
-            [
-                category.name
-            for category in categories]
-            }
-            return JsonResponse(data, status=200)
-        except Exception as e:
-            return JsonResponse({'d':f"{e}"})
+        categories=Category.objects.all()
+        data={"categories":
+        [
+            category.name
+        for category in categories]
+        }
+        return JsonResponse(data, status=200)
 
 class MainView(View):
     def get(self, request):
