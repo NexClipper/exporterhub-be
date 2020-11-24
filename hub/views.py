@@ -5,7 +5,7 @@ import base64
 from django.views import View
 from django.http import JsonResponse
 
-from .models import Exporter, Release
+from .models import Exporter, Release, Category
 from my_settings import TOKEN
 
 api_url='https://api.github.com/repos/'
@@ -100,6 +100,19 @@ class RepositoryView(View):
         except KeyError:
             return JsonResponse({'message':'KEY_ERROR'}, status=400)
 
+class CategoryView(View):
+    def get(self, request):
+        try:
+            categories=Category.objects.all()
+            data={"categories":
+            [
+                category.name
+            for category in categories]
+            }
+            return JsonResponse(data, status=200)
+        except Exception as e:
+            return JsonResponse({'d':f"{e}"})
+
 class MainView(View):
     def get(self, request):
         try:
@@ -126,4 +139,4 @@ class MainView(View):
 
             return JsonResponse(data, status=200)
         except Exception as e:
-            return JsonResponse({'message':f"{e}"})
+            return JsonResponse({'message':f"{e}"}, status=400)
